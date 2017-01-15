@@ -2,18 +2,22 @@ import React from 'react';
 import Board from './Board';
 
 class Game extends React.Component {
-  constructor() {
-    super();
-    this.state = {
+
+  reset() {
+    this.setState({
       history:[{
         squares: Array(9).fill(null)
       }],
       xIsNext: true,
       stepNumber: 0
-    }
+    });
   }
 
-  handleClick(i) {
+  componentWillMount() {
+    this.reset();
+  }
+
+  handleClick = (i) => {
     const history = this.state.history;
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -28,8 +32,7 @@ class Game extends React.Component {
       xIsNext: !this.state.xIsNext,
       stepNumber: history.length
     });
-
-  }
+  };
 
   calculateWinner(squares) {
     const lines = [
@@ -58,6 +61,10 @@ class Game extends React.Component {
     })
   }
 
+  newGame = () => {
+    this.reset();
+  };
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -72,7 +79,7 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ?
-        'Move #' + move :
+        'Move ' + move :
         'Game start';
       return (
         <li key={move}>
@@ -84,11 +91,14 @@ class Game extends React.Component {
     return (
       <div>
         <h3>Tic Tac Toe game for two players</h3>
+        <p>
+          <button onClick={this.newGame}>New Game</button>
+        </p>
         <div className="game">
           <div className="game-board">
             <Board
               squares={current.squares}
-              onClick={(i) => this.handleClick(i)}
+              onClick={this.handleClick}
             />
           </div>
           <div className="game-info">
