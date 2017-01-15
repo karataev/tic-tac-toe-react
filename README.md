@@ -2,5 +2,5 @@
 
 A side project build with create-react-app.
 
-[Demo](http://http://react-ttt.surge.sh/)
+[Demo](http://react-ttt.surge.sh/)
 
